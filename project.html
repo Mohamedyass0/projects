@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explorez le Cosmos</title>
+    <link rel="icon" href="logo2.png"  sizes="128x128">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to bottom, #001f3f, #011a30);
+            color: #ffffff;
+        }
+
+        header {
+            text-align: center;
+            padding: 20px;
+            background-color: #002855;
+        }
+        #searchBar {
+    margin-top: 10px;
+    padding: 8px;
+    width: 100%;
+    max-width: 400px;
+    border-radius: 5px;
+    border: 1px solid #ffffff;
+    font-size: 1em;
+    background-color: #001f3f;
+    color: #ffffff;
+    outline: none;
+}
+
+#searchBar::placeholder {
+    color: #ffffff;
+}
+
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+
+        nav {
+            background-color: #014f86;
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+        }
+
+        nav a {
+            color: #ffffff;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 1.2em;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #ffd700;
+        }
+
+        main {
+            padding: 20px;
+        }
+
+        section {
+            margin-bottom: 40px;
+        }
+
+        section h2 {
+            text-align: center;
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+
+        .cards {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .card {
+            background: #023e8a;
+            margin: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+            max-width: 300px;
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+        }
+
+        .card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .card-content {
+            padding: 15px;
+        }
+
+        .card-content h3 {
+            font-size: 1.5em;
+            margin: 0 0 10px;
+        }
+
+        .card-content p {
+            font-size: 1em;
+            line-height: 1.6;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #002855;
+            margin-top: 20px;
+        }
+
+        footer p {
+            margin: 0;
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0.5; }
+            50% { opacity: 1; }
+            100% { opacity: 0.5; }
+        }
+
+        .stars {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            background: transparent;
+        }
+
+        .star {
+            position: absolute;
+            background-color: white;
+            width: 2px;
+            height: 2px;
+            border-radius: 50%;
+            animation: twinkle 2s infinite ease-in-out;
+        }
+        .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.8);
+    }
+
+    .modal-content {
+        background-color: #023e8a;
+        margin: 15% auto;
+        padding: 20px;
+        border: 1px solid #ffffff;
+        border-radius: 10px;
+        width: 80%;
+        color: #ffffff;
+    }
+
+    .modal-content h3 {
+        margin: 0 0 10px;
+    }
+
+    .modal-content p {
+        line-height: 1.6;
+    }
+
+    .close {
+        color: #ffffff;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+        color: #ffd700;
+        text-decoration: none;
+        cursor: pointer;
+    }
+    </style>
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+    <header>
+        <h1>Explorez le Cosmos</h1>
+        <p>Découvrez des faits fascinants sur notre système solaire et notre galaxie</p>
+            <input type="text" id="searchBar" placeholder="Rechercher des planètes, des étoiles, des galaxies..." oninput="searchItems()">
+        </header>
+        
+    </header>
+    
+
+    <nav>
+        <a href="#planets">Planets</a>
+        <a href="#str">Stars</a>
+        <a href="#galaxies">Galaxies</a>
+    </nav>
+    <div id="detailModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h3 id="modalTitle"></h3>
+            <p id="modalDescription"></p>
+        </div>
+    </div>
+
+    <main>
+        <section id="planets">
+            <h2>Planètes</h2>
+            <div class="cards">
+                <div class="card">
+                    <img src="mercury.jpeg" alt="Mercury">
+                    <div class="card-content">
+                        <h3>Mercure</h3>
+                        <p> La plus petite planète de notre système solaire et la plus proche du Soleil. Elle n'a pas d'atmosphère pour retenir la chaleur.</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <img src="venus.jpeg" alt="Venus">
+                    <div class="card-content">
+                        <h3>Vénus</h3>
+                        <p>Connue sous le nom de "jumeau de la Terre" en raison de sa taille similaire, Vénus est la planète la plus chaude de notre système solaire.</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <img src="earth.jpeg" alt="Earth">
+                    <div class="card-content">
+                        <h3>Terre</h3>
+                        <p> Notre planète d'origine, la troisième à partir du Soleil, est le seul endroit connu dans l'univers capable de soutenir la vie.</p>
+                
+                    </div>
+                </div>
+
+                <div class="card">
+                    <img src="mars.jpeg" alt="Mars">
+                    <div class="card-content">
+                        <h3>Mars</h3>
+                        <p> Mars possède le plus grand volcan et le plus grand canyon du système solaire.</p></div>
+                </div>
+
+                <div class="card">
+                    <img src="jupiter.jpeg" alt="Jupiter">
+                    <div class="card-content">
+                        <h3>Jupiter</h3>
+                        <p>La plus grande planète du système solaire, connue pour sa grande tache rouge et ses dizaines de lunes.</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <img src="saturn.jpeg" alt="Saturn">
+                    <div class="card-content">
+                        <h3>Saturne</h3>
+                        <p>Célèbre pour son impressionnant système d'anneaux, Saturne est une géante gazeuse avec plus de 80 lunes.</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <img src="uranus.jpg" alt="Uranus">
+                    <div class="card-content">
+                        <h3>Uranus</h3>
+                        <p>Une géante gazeuse avec une couleur bleu-vert unique due au méthane dans son atmosphère. Elle tourne sur son côté.</p></div>
+                </div>
+
+                <div class="card">
+                    <img src="neptune.jpeg" alt="Neptune">
+                    <div class="card-content">
+                        <h3>Neptune</h3>
+                        <p>La planète la plus éloignée du Soleil, Neptune est connue pour sa couleur bleu profond et ses vents supersoniques.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="str">
+            <h2>Étoiles</h2>
+            <div class="cards">
+                <div class="card">
+                    <img src="sun.jpeg" alt="Sun">
+                    <div class="card-content">
+                        <h3>Soleil</h3>
+                        <p>Le cœur de notre système solaire, le Soleil est une énorme boule d'hydrogène et d'hélium, fournissant de l'énergie à toutes les planètes.</p> </div>
+                </div>
+
+                <div class="card">
+                    <img src="sirius.jpeg" alt="Sirius">
+                    <div class="card-content">
+                        <h3>Sirius</h3>
+                        <p>L'étoile la plus brillante du ciel nocturne terrestre, située dans la constellation du Grand Chien.</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <img src="betel.jpeg" alt="Betelgeuse">
+                    <div class="card-content">
+                        <h3>Betelgeuse</h3>
+                        Une étoile supergéante rouge dans la constellation d'Orion, approchant de la fin de son cycle de vie.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="galaxies">
+            <h2>Galaxies</h2>
+            <div class="cards">
+                <div class="card">
+                    <img src="milky.webp" alt="Milky Way">
+                    <div class="card-content">
+                        <h3>Voie_lactée</h3>
+                        <p>Notre galaxie, une vaste collection d'étoiles, de planètes et de poussière s'étendant sur plus de 100 000 années-lumière.</p></div>
+                </div>
+
+                <div class="card">
+                    <img src="andro.jpeg" alt="Andromeda">
+                    <div class="card-content">
+                        <h3>Andromède</h3>
+                        <p>La galaxie majeure la plus proche de la Voie lactée, en collision avec notre galaxie dans 4,5 milliards d'années.</p>
+                        </div>
+                </div>
+
+                <div class="card">
+                    <img src="triang.jpeg" alt="Triangulum Galaxy">
+                    <div class="card-content">
+                        <h3>Galaxie_du_Triangle</h3>
+                        <p>Une galaxie spirale située dans la constellation du Triangle, membre de notre Groupe Local de galaxies.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Explore the Cosmos. All rights reserved.</p>
+    </footer>
+
+    <script>
+        function searchItems() {
+    const searchQuery = document.getElementById('searchBar').value.toLowerCase();
+    const cards = document.querySelectorAll('.card');
+    
+    cards.forEach(card => {
+        const title = card.querySelector('h3').textContent.toLowerCase();
+        if (title.includes(searchQuery)) {
+            card.style.display = "block"; // Show the card if it matches
+        } else {
+            card.style.display = "none"; // Hide the card if it doesn't match
+        }
+    });
+}
+
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            for (let i = 0; i < 200; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+                star.style.top = Math.random() * 100 + '%';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+        
+        createStars();
+        const cardData = {
+        Mercure: "Mercure est un monde de cratères et de températures extrêmes. La température peut atteindre 430°C le jour et descendre à -180°C la nuit.",
+        Vénus: "Vénus est connue pour son atmosphère épaisse et toxique qui emprisonne la chaleur, ce qui en fait la planète la plus chaude. Sa température de surface peut dépasser 465°C, plus chaude que celle de Mercure, malgré une plus grande distance au Soleil",
+        Terre: "La Terre est la seule planète connue pour abriter la vie, avec un environnement diversifié et 71% de sa surface recouverte d'eau. Elle possède également une atmosphère riche en oxygène, essentielle à la vie telle que nous la connaissons.",
+        Mars: "Mars, la planète rouge, possède le plus grand volcan (Olympus Mons) et fait l'objet d'études pour détecter des signes de vie passée. Son climat sec et froid, ainsi que sa fine atmosphère, suscitent l'intérêt pour l'exploration humaine.",
+        Jupiter: "Jupiter est la plus grande planète, avec une immense tempête appelée la Grande Tache Rouge et 79 lunes connues. Elle possède une atmosphère composée principalement d'hydrogène et d'hélium, et sa gravité est 2,5 fois plus forte que celle de la Terre.",
+        Saturne: "Saturne est célèbre pour ses magnifiques anneaux et abrite plus de 80 lunes, dont Titan, qui possède sa propre atmosphère et des mers de méthane liquide. C'est aussi une planète géante gazeuse avec une densité si faible qu'elle flotterait dans l'eau.",
+        Uranus: "Uranus tourne sur son côté, ce qui donne un jour et une nuit particulièrement longs. Son atmosphère glacée, teintée de bleu-vert pâle, est composée principalement de méthane, d'hydrogène et d'hélium.",
+        Neptune: "Neptune a des vents supersoniques qui peuvent atteindre 2 100 km/h, et c'est la planète la plus éloignée du Soleil. Elle est aussi connue pour ses tempêtes intenses et sa couleur bleue distinctive due au méthane dans son atmosphère.",
+        Soleil: "Le Soleil est une étoile massive au centre de notre système solaire, composée principalement d'hydrogène et d'hélium. Il représente 99,86% de la masse totale de notre système solaire et produit de l'énergie par fusion nucléaire.",
+        Sirius: "Sirius est l'étoile la plus brillante du ciel nocturne, située dans la constellation du Grand Chien. Elle est en réalité un système binaire, constitué de Sirius A, une étoile brillante, et de Sirius B, une naine blanche.",
+        Betelgeuse: "Bételgeuse est une étoile supergéante rouge dans la constellation d'Orion, connue pour son potentiel à exploser en supernova. Cette explosion pourrait être visible depuis la Terre, même en plein jour.",
+        Voie_lactée: "La Voie Lactée est notre galaxie d'origine, contenant des milliards d'étoiles et de systèmes planétaires. Elle mesure environ 100 000 années-lumière de diamètre et abrite notre système solaire.",
+        Andromède: "Andromède est la grande galaxie la plus proche de la nôtre, et on s'attend à ce qu'elle fusionne avec la Voie Lactée dans quelques milliards d'années. Elle contient environ un trillion d'étoiles.",
+        TriangulumGalaxy: "La Galaxie du Triangle est une petite galaxie spirale, faisant partie du Groupe Local. Elle est située à environ 3 millions d'années-lumière de la Terre et possède environ 40 milliards d'étoiles.",
+    };
+
+    document.querySelectorAll('.card').forEach(card => {
+        card.addEventListener('click', () => {
+            const title = card.querySelector('h3').textContent;
+            const description = cardData[title] || "Detailed information about this celestial object is coming soon.";
+            document.getElementById('modalTitle').textContent = title;
+            document.getElementById('modalDescription').textContent = description;
+            document.getElementById('detailModal').style.display = "block";
+        });
+    });
+
+    function closeModal() {
+        document.getElementById('detailModal').style.display = "none";
+    }
+    </script>
+</body>
+</html>
